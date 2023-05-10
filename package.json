@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "get": "ts-node scripts/metaplex/getNfts.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,10 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@solana/spl-token": "^0.2.0",
-    "@solana/web3.js": "^1.41.3",
+    "@metaplex-foundation/js": "^0.18.3",
+    "@nftstorage/metaplex-auth": "^1.2.0",
+    "@solana/web3.js": "^1.76.0",
+    "bs58": "^5.0.0",
     "dotenv": "^16.0.0"
   }
 }
