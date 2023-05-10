@@ -13,8 +13,13 @@ export function initializeSolSignerKeypair(): web3.Keypair {
         console.log(`Created SOL Public Key: ${signer.publicKey}`)
 
         // Append the new key-value pair to the contents of the .env file
-        let envFileContents = fs.readFileSync('.env', 'utf-8');
-        envFileContents += `PRIVATE_KEY=[${signer.secretKey.toString()}]\n`;
+        let envFileContents
+        try {
+            envFileContents = fs.readFileSync('.env', 'utf-8')!;
+        } catch {
+            console.log("No .env found.")
+        }
+        envFileContents = `PRIVATE_KEY=[${signer.secretKey.toString()}]\n`;
         fs.writeFileSync('.env', envFileContents)
 
         return signer

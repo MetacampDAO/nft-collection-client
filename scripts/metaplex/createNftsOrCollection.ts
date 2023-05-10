@@ -107,7 +107,7 @@ export async function createNft(
   // Set up NFT-Storage client
   const client = NFTStorageMetaplexor.withSecretKey(signer.secretKey, {
     solanaCluster: cluster,
-    mintingAgent: 'Metacamp',
+    mintingAgent: 'YOUR_AGENT_X',
   })
 
   // Upload NFT with NFT-Storage
