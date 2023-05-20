@@ -33,14 +33,14 @@ export function initializeSolSignerKeypair(): web3.Keypair {
     return keypairFromSecretKey
 }
 
-export async function airdropSolIfNeeded(signer: web3.Keypair, connection: web3.Connection) {
+export async function airdropSolIfNeeded(signer: web3.Keypair, connection: web3.Connection, amount: number, threshold: number) {
 
     if (connection.rpcEndpoint.includes('dev') || connection.rpcEndpoint.includes('test')) {
         const balance = await connection.getBalance(signer.publicKey)
-        console.log('Current balance is', balance)
-        if (balance < web3.LAMPORTS_PER_SOL) {
-            console.log('Airdropping 1 SOL...')
-            await connection.requestAirdrop(signer.publicKey, web3.LAMPORTS_PER_SOL)
+        console.log('Current balance is', balance / web3.LAMPORTS_PER_SOL, ' SOL')
+        if (balance < threshold * web3.LAMPORTS_PER_SOL) {
+            console.log(`Airdropping ${amount} SOL...`)
+            await connection.requestAirdrop(signer.publicKey, amount * web3.LAMPORTS_PER_SOL )
         }
     } 
     

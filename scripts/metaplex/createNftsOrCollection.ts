@@ -17,7 +17,7 @@ async function main() {
   const cluster = 'devnet'
   const connection = new web3.Connection(web3.clusterApiUrl(cluster))
   const user = await initializeSolSignerKeypair()
-  await airdropSolIfNeeded(user, connection)
+  await airdropSolIfNeeded(user, connection, 2, 0.05)
 
   // Create Nfts through the asset directory
   const assetDirectory = "assets" 
@@ -43,7 +43,7 @@ export async function createCollection(
   console.log(`Creating NFT from collection.json ...`)
   const collectionData = await createNft(cluster, signer, directoryPath + "/collection.json");
   console.log(`Created Collection NFT Explorer: https://explorer.solana.com/address/${collectionData.nft.address.toString()}?cluster=${cluster}`)
-  await readOrCreateFile(`${collectionData.nft.address}.json`, "assets/collections/", { "referenceKey" : collectionData.nft.address })
+  await readOrCreateFile(`${collectionData.nft.address}.json`, "collections/", { "referenceKey" : collectionData.nft.address })
   console.log(`Saved collection to ${directoryPath}/collections/${collectionData.nft.address}.json \n`)
 
   // Return collection key

@@ -35,11 +35,11 @@ async function main() {
 
   // Get or create Keypair for user
   const user = await initializeSolSignerKeypair()
-  await airdropSolIfNeeded(user, connection)
+  await airdropSolIfNeeded(user, connection, 2, 0.05)
 
 
   // Call function to get NFT data and store under ${pubKey}.json
-  await getNfts(connection, pubKey, "assets/collections/")
+  await getNfts(connection, pubKey, "collections")
 
 }
 
