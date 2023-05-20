@@ -41,6 +41,7 @@ export async function airdropSolIfNeeded(signer: web3.Keypair, connection: web3.
         if (balance < threshold * web3.LAMPORTS_PER_SOL) {
             console.log(`Airdropping ${amount} SOL...`)
             await connection.requestAirdrop(signer.publicKey, amount * web3.LAMPORTS_PER_SOL )
+            console.log(`\rAirdrop of ${amount} SOL was successful.`)
         }
     } 
     
