@@ -73,12 +73,13 @@ export async function main() {
         },
         { commitment: "finalized" }
     )
-    console.log(`Uploaded Metadata: ${uploadedMetadata}`)
+    console.log(`\x1b[32mUploaded Metadata:\x1b[0m ${JSON.stringify(uploadedMetadata, null, 2)}\n`)
 
     // Create Nft
     let createdNft = await metaplex.nfts().create(
         {
-            uri: uploadedMetadata!.metadata!.external_url!,
+        
+            uri: uploadedMetadata.uri,
             name: uploadedMetadata!.metadata!.name!,
             sellerFeeBasisPoints: uploadedMetadata!.metadata!.seller_fee_basis_points!,
             symbol: uploadedMetadata!.metadata!.symbol!,
@@ -91,26 +92,26 @@ export async function main() {
         },
         { commitment: "finalized" }
     )
-    console.log(`Created Nft: ${createdNft}`)
+    console.log(`\x1b[32mCreated Nft:\x1b[0m ${JSON.stringify(createdNft, null, 2)}\n`)
 
     // Find by Mint
     let byMint = await metaplex.nfts().findByMint({
         mintAddress: createdNft.mintAddress
     })
-    console.log(`findByMint: ${byMint}`)
+    console.log(`\x1b[32mfindByMint:\x1b[0m ${JSON.stringify(byMint, null, 2)}\n`)
 
     // Find all by Mint list
     let byMintList = await metaplex.nfts().findAllByMintList({
         mints: [createdNft.mintAddress]
     }
     )
-    console.log(`findAllByMintList: ${byMintList}`)
+    console.log(`\x1b[32mfindAllByMintList:\x1b[0m ${JSON.stringify(byMintList, null, 2)}\n`)
 
     // load Nft
     let loadedNft = await metaplex.nfts().load({
         metadata: byMintList[0] as Metadata
     })
-    console.log(`load: ${loadedNft}`)
+    console.log(`\x1b[32mload:\x1b[0m ${JSON.stringify(loadedNft, null, 2)}\n`)
 
 
     // Find all by Owner
@@ -118,36 +119,36 @@ export async function main() {
     let byOwner = await metaplex.nfts().findAllByOwner({
         owner: owner
     })
-    console.log(`findAllByOwner: ${byOwner}`)
+    console.log(`\x1b[32mfindAllByOwner:\x1b[0m ${JSON.stringify(byOwner, null, 2)}\n`)
 
     // Find all by Creator
     let creator = new web3.PublicKey("JonasQ6kwFknJKQpVXbAs2d3fdVLy2DnXd13ynwhgV4")
     let byCreator = await metaplex.nfts().findAllByCreator({
         creator: creator
     })
-    console.log(`findAllByCreator: ${byCreator}`)
+    console.log(`\x1b[32mfindAllByCreator:\x1b[0m ${JSON.stringify(byCreator, null, 2)}\n`)
 
 
     // Update Nft
-    let collectionPubkey = new web3.PublicKey("JonasQ6kwFknJKQpVXbAs2d3fdVLy2DnXd13ynwhgV4")
+    let collectionPubkey = new web3.PublicKey("41jnrm6adfmLqCumHieRMkSFzP6Y8Lg8dFKtb6X1fWf7")
     let updatedNft = await metaplex.nfts().update({
         nftOrSft: byMint,
         collection: collectionPubkey
     })
-    console.log(`update: ${updatedNft}`)
+    console.log(`\x1b[32mupdate:\x1b[0m ${JSON.stringify(updatedNft, null, 2)}\n`)
 
     // Use Nft
     let usedNft = await metaplex.nfts().use({
         mintAddress: new web3.PublicKey(byMint.mint)
     })
-    console.log(`use: ${usedNft}`)
+    console.log(`\x1b[32muse:\x1b[0m ${JSON.stringify(usedNft, null, 2)}\n`)
 
     // Print Nft
     let printedNft = await metaplex.nfts().printNewEdition({
         originalMint: new web3.PublicKey(byMint.mint)
     }
     )
-    console.log(`printNewEdition: ${printedNft}`)
+    console.log(`\x1b[32mprintNewEdition:\x1b[0m ${JSON.stringify(printedNft, null, 2)}\n`)
 
 
 
