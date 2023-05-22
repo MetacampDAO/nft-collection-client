@@ -22,7 +22,7 @@ async function main() {
 
   // Create user and airdrop SOL if needed
   const signer = initializeSolSignerKeypair()
-  await airdropSolIfNeeded(signer, connection, 2, 0.05)
+  await airdropSolIfNeeded(connection, signer.publicKey, 2, 0.05)
 
   // Create collection NFT 
   console.log(`\n***NEXT PROCESS - CREATING COLLECTION ... \n`)

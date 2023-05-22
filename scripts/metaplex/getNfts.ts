@@ -33,9 +33,9 @@ async function main() {
   const connection = new web3.Connection(web3.clusterApiUrl(cluster))
   // const connection = new web3.Connection(process.env.MAINNET_CONNECTION ?? "")
 
-  // Get or create Keypair for user
+  // Get or create Keypair for user, and airdrop SOL if needed
   const user = await initializeSolSignerKeypair()
-  await airdropSolIfNeeded(user, connection, 2, 0.05)
+  await airdropSolIfNeeded(connection, user.publicKey, 2, 0.05)
 
 
   // Call function to get NFT data and store under ${pubKey}.json
