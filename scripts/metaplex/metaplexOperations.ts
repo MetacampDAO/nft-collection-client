@@ -88,17 +88,20 @@ export async function main() {
     )
     console.log(`Created Nft: ${createdNft}`)
 
-
+    // Find by Mint
     let byMint = await metaplex.nfts().findByMint({
         mintAddress: createdNft.mintAddress
     })
     console.log(`findByMint: ${byMint}`)
 
-    let byMintList = await metaplex.nfts().findAllByMintList(
-        [createdNft.mintAddress]
+    // Find all by Mint list
+    let byMintList = await metaplex.nfts().findAllByMintList({
+        mints: [createdNft.mintAddress]
+    }
     )
     console.log(`findAllByMintList: ${byMintList}`)
 
+    // 
     let byOwner = await metaplex.nfts().findAllByOwner()
     console.log(`findAllByOwner: ${byOwner}`)
 
