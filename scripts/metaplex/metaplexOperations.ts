@@ -90,8 +90,8 @@ export async function main() {
             symbol: uploadedMetadata!.metadata!.symbol!,
             uses: {
               useMethod: 0,
-              remaining: 5,
-              total: 5
+              remaining: 1,
+              total: 1
             },
             maxSupply: null
         },
@@ -144,18 +144,18 @@ export async function main() {
     console.log(`\x1b[32mupdate:\x1b[0m ${JSON.stringify(updatedNft, null, 2)}\n`)
 
 
-    // Use Nft
-    let usedNft = await metaplex.nfts().use({
-        mintAddress: new web3.PublicKey(byMint!.mint!)
-    })
-    console.log(`\x1b[32muse:\x1b[0m ${JSON.stringify(usedNft, null, 2)}\n`)
-
-
     // Print Nft
     let printedNft = await metaplex.nfts().printNewEdition({
-        originalMint: new web3.PublicKey(byMint!.mint!),
+        originalMint: loadedNft.mint.address
     })
     console.log(`\x1b[32mprintNewEdition:\x1b[0m ${JSON.stringify(printedNft, null, 2)}\n`)
+
+
+    // Use Nft
+    let usedNft = await metaplex.nfts().use({
+        mintAddress: loadedNft.mint.address
+    })
+    console.log(`\x1b[32muse:\x1b[0m ${JSON.stringify(usedNft, null, 2)}\n`)
 
 
 }
