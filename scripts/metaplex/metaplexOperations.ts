@@ -19,7 +19,8 @@ import {
     Nft,
     PublicKey,
     Metadata,
-    keypairIdentity
+    keypairIdentity,
+    toBigNumber
 } from "@metaplex-foundation/js"
 import * as web3 from "@solana/web3.js"
 import { initializeSolSignerKeypair, airdropSolIfNeeded } from "../initializeKeypair"
@@ -54,6 +55,9 @@ export async function main() {
 
     // Set signer for metaplex to user
     metaplex.use(keypairIdentity(user))
+
+
+    let collectionKey = new web3.PublicKey("J1S9H3QjnRtBbbuD4HjPV6RpRhwuk4zKbxsnCHuTgh9w") // Madlads NFT Collection
 
 
     // Upload Metadata
@@ -113,35 +117,25 @@ export async function main() {
     })
     console.log(`\x1b[32mload:\x1b[0m ${JSON.stringify(loadedNft, null, 2)}\n`)
 
-
     // Find all by Owner
-    let owner = new web3.PublicKey("JonasQ6kwFknJKQpVXbAs2d3fdVLy2DnXd13ynwhgV4")
     let byOwner = await metaplex.nfts().findAllByOwner({
-        owner: owner
+        owner: loadedNft.creators[0].address
     })
     console.log(`\x1b[32mfindAllByOwner:\x1b[0m ${JSON.stringify(byOwner, null, 2)}\n`)
 
     // Find all by Creator
-    let creator = new web3.PublicKey("JonasQ6kwFknJKQpVXbAs2d3fdVLy2DnXd13ynwhgV4")
     let byCreator = await metaplex.nfts().findAllByCreator({
-        creator: creator
+        creator: loadedNft.creators[0].address
     })
     console.log(`\x1b[32mfindAllByCreator:\x1b[0m ${JSON.stringify(byCreator, null, 2)}\n`)
 
 
     // Update Nft
-    let collectionPubkey = new web3.PublicKey("41jnrm6adfmLqCumHieRMkSFzP6Y8Lg8dFKtb6X1fWf7")
     let updatedNft = await metaplex.nfts().update({
         nftOrSft: byMint,
-        collection: collectionPubkey
+        collection: collectionKey
     })
     console.log(`\x1b[32mupdate:\x1b[0m ${JSON.stringify(updatedNft, null, 2)}\n`)
-
-    // Use Nft
-    let usedNft = await metaplex.nfts().use({
-        mintAddress: new web3.PublicKey(byMint.mint)
-    })
-    console.log(`\x1b[32muse:\x1b[0m ${JSON.stringify(usedNft, null, 2)}\n`)
 
     // Print Nft
     let printedNft = await metaplex.nfts().printNewEdition({
@@ -150,7 +144,11 @@ export async function main() {
     )
     console.log(`\x1b[32mprintNewEdition:\x1b[0m ${JSON.stringify(printedNft, null, 2)}\n`)
 
-
+    // Use Nft
+    let usedNft = await metaplex.nfts().use({
+        mintAddress: new web3.PublicKey(byMint.mint)
+    })
+    console.log(`\x1b[32muse:\x1b[0m ${JSON.stringify(usedNft, null, 2)}\n`)
 
 
 }
