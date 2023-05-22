@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "get": "ts-node scripts/metaplex/getNfts.ts"
+    "get": "ts-node scripts/metaplex/getNfts.ts",
+    "metaplex": "ts-node scripts/metaplex/metaplexOperations.ts"
   },
   "keywords": [],
   "author": "",
