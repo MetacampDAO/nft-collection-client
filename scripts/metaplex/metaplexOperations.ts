@@ -41,7 +41,7 @@ export async function main() {
 
     // Connect to cluster, rpc node, and set up metaplex client
     const cluster: web3.Cluster = "devnet"
-    const connection = new web3.Connection(web3.clusterApiUrl(cluster))
+    const connection = new web3.Connection(web3.clusterApiUrl(cluster), 'finalized')
     const metaplex = Metaplex.make(connection)
         .use(bundlrStorage({
             address: 'https://devnet.bundlr.network',
