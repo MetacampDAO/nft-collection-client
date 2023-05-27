@@ -17,7 +17,7 @@ async function main() {
   const cluster = 'devnet'
   const connection = new web3.Connection(web3.clusterApiUrl(cluster))
   const user = await initializeSolSignerKeypair()
-  await airdropSolIfNeeded(user, connection, 2, 0.05)
+  await airdropSolIfNeeded(connection, user.publicKey, 2, 0.05)
 
   // Create Nfts through the asset directory
   const assetDirectory = "assets" 

@@ -24,7 +24,7 @@ async function main() {
   const user = await initializeSolSignerKeypair()
 
   // Airdrop to user
-  await airdropSolIfNeeded(user, connection, 2, 0.05)
+  await airdropSolIfNeeded(connection, user.publicKey, 2, 0.05)
 
 
   // Call function to update NFT
