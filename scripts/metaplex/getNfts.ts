@@ -39,7 +39,7 @@ async function main() {
 
 
   // Call function to get NFT data and store under ${pubKey}.json
-  await getNfts(connection, pubKey, "collections")
+  await getNfts(connection, pubKey, "collections/")
 
 }
 
