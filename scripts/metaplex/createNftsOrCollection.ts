@@ -115,11 +115,11 @@ export let createNft = async (
   let nft = await loadNFTFromFilesystem(`${assetPath}`)
 
   // Upload NFT to NFT-Storage
-  const metadata = await client.storeCar(nft.encodedAssets.car)
-  console.log(metadata)
-  console.log(`JSON file uploaded to ${nft.metadataGatewayURL}`)
+  const assets = await client.storeCar(nft.encodedAssets.car)
   console.log(`Image file uploaded to ${nft.metadata.image}`)
-
+  const metadata = await client.storeCar(nft.encodedMetadata.car)
+  console.log(`JSON file uploaded to ${nft.metadataGatewayURL}`)
+  
 
   // Send tx to Solana and create NFT
   const data = await metaplex

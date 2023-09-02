@@ -2,3 +2,4 @@ node_modules/
 dist/
 .env
 collections/*
+*.mp4
