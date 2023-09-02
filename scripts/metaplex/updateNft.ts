@@ -1,7 +1,7 @@
-import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../initializeKeypair"
+import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../dummy-user/initializeKeypair"
 import * as web3 from "@solana/web3.js"
 import { PublicKey } from "@solana/web3.js"
-import { readOrCreateFile } from "../readOrCreateJsonFile"
+import { readOrCreateFile } from "./readOrCreateJsonFile"
 
 import {
   Metaplex,
@@ -15,7 +15,7 @@ const collection = new PublicKey("2XCxwjuUZxjTsDdHGQ8zb5HaPRrk1raeSdpfxd94iwAA")
 
 
 
-async function main() {
+let main = async () => {
 
   // Connect to cluster
   const connection = new web3.Connection(web3.clusterApiUrl("devnet"))
@@ -35,13 +35,13 @@ async function main() {
 
 
 // Update NFT
-async function updateNft(
+let updateNft = async (
   connection: web3.Connection,
   signer: web3.Keypair,
   mintAddress: PublicKey,
   directoryPath: string,
   fileName : string
-) {
+) => {
 
   // Set up Metaplex client
   const metaplex = Metaplex.make(connection)

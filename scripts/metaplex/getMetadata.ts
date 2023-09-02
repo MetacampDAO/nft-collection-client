@@ -7,7 +7,7 @@
 import { BinaryReader, BinaryWriter, deserializeUnchecked } from "borsh";
 import { PublicKey, Connection } from "@solana/web3.js";
 import base58 from "bs58";
-import { updateJsonFile, readOrCreateFile } from "../readOrCreateJsonFile"
+import { updateJsonFile, readOrCreateFile } from "./readOrCreateJsonFile"
 // import { CollectionDetails, ProgrammableConfig } from "@metaplex-foundation/mpl-token-metadata";
 
 
@@ -297,7 +297,7 @@ const METADATA_SCHEMA = new Map<any, any>([
 
 
 const METADATA_REPLACE = new RegExp("\u0000", "g");
-export const decodeMetadata = (buffer: Buffer): Metadata => {
+export let decodeMetadata = (buffer: Buffer): Metadata => {
   const metadata = deserializeUnchecked(
     METADATA_SCHEMA,
     Metadata,
@@ -311,7 +311,7 @@ export const decodeMetadata = (buffer: Buffer): Metadata => {
   return metadata;
 };
 
-export async function getMetadata(
+export let getMetadata = async (
   connection: Connection,
   pubKey: PublicKey,
   directoryPath: string,
@@ -319,7 +319,7 @@ export async function getMetadata(
   metadataFieldName: string,
   batchSize: number = 100,
   skip?: boolean
-    ) : Promise<Metadata[]> {
+    ) : Promise<Metadata[]> => {
 
 
     // Console log progress

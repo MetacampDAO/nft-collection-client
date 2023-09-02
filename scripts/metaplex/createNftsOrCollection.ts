@@ -1,19 +1,24 @@
-import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../initializeKeypair"
+import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../dummy-user/initializeKeypair"
 import * as web3 from "@solana/web3.js"
-import { NFTStorageMetaplexor } from '@nftstorage/metaplex-auth'
-import { readOrCreateFile } from "../readOrCreateJsonFile"
+import { loadNFTFromFilesystem } from '@nftstorage/metaplex-auth'
+import { NFTStorage } from 'nft.storage'
+import { readOrCreateFile } from "./readOrCreateJsonFile"
+import dotenv from 'dotenv'
+dotenv.config()
 
 
 import {
   Metaplex,
   keypairIdentity,
-  CreateNftOutput
+  CreateCompressedNftOutput
 } from "@metaplex-foundation/js"
 import * as fs from "fs"
 
 
+const NFT_STORAGE_API_KEY = process.env.NFT_STORAGE_AUTH
 
-async function main() {
+
+let main = async () => {
   const cluster = 'devnet'
   const connection = new web3.Connection(web3.clusterApiUrl(cluster))
   const user = await initializeSolSignerKeypair()
@@ -28,11 +33,11 @@ async function main() {
 }
 
 // create Collection NFT
-export async function createCollection(
+export let createCollection = async (
   cluster: web3.Cluster,
   signer: web3.Keypair,
   directoryPath: string
-): Promise<web3.PublicKey> {
+): Promise<web3.PublicKey> => {
 
   // Checking files in asset directory
   const files = await fs.promises.readdir(directoryPath);
@@ -53,11 +58,11 @@ export async function createCollection(
 
 
 // create NFT
-export async function createNfts(
+export let createNfts = async (
   cluster: web3.Cluster,
   signer: web3.Keypair,
   assetDirectory: string
-): Promise<web3.PublicKey[]> {
+): Promise<web3.PublicKey[]> => {
 
   // Checking files in asset directory
   const jsonType = '.json';
@@ -90,11 +95,11 @@ export async function createNfts(
 }
 
 
-export async function createNft(
+export let createNft = async (
   cluster: web3.Cluster,
   signer: web3.Keypair,
   assetPath: string
-) : Promise<CreateNftOutput>{
+) : Promise<CreateCompressedNftOutput> => {
 
 
   const connection = new web3.Connection(web3.clusterApiUrl(cluster), 'confirmed')
@@ -102,16 +107,16 @@ export async function createNft(
   // Setup Metaplex bundlrStorage and signer
   const metaplex = Metaplex.make(connection)
   .use(keypairIdentity(signer))
+  
+  // NFT Storage Client
+  const client = new NFTStorage({ token: NFT_STORAGE_API_KEY as string})
 
+  // Preparing assets
+  let nft = await loadNFTFromFilesystem(`${assetPath}`)
 
-  // Set up NFT-Storage client
-  const client = NFTStorageMetaplexor.withSecretKey(signer.secretKey, {
-    solanaCluster: cluster,
-    mintingAgent: 'YOUR_AGENT_X',
-  })
-
-  // Upload NFT with NFT-Storage
-  const nft = await client.storeNFTFromFilesystem(assetPath)
+  // Upload NFT to NFT-Storage
+  const metadata = await client.storeCar(nft.encodedAssets.car)
+  console.log(metadata)
   console.log(`JSON file uploaded to ${nft.metadataGatewayURL}`)
   console.log(`Image file uploaded to ${nft.metadata.image}`)
 
@@ -122,7 +127,7 @@ export async function createNft(
     .create({
       uri: nft.metadataGatewayURL,
       name: nft.metadata.name,
-      sellerFeeBasisPoints: nft.metadata.sellerFeeBasisPoints,
+      sellerFeeBasisPoints: nft.metadata.seller_fee_basis_points as number,
       symbol: nft.metadata.symbol,
       // uses: {
       //   useMethod: nft.metadata.uses.useMethod,
@@ -134,7 +139,7 @@ export async function createNft(
       { commitment: "finalized" }
     )
 
-  console.log(`Signature Explorer: https://explorer.solana.com/tx/${data.response.signature}?cluster=devnet$`)
+  console.log(`Signature Explorer: https://explorer.solana.com/tx/${data.response.signature}?cluster=${cluster}`)
 
   return data
 

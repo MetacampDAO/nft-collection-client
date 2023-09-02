@@ -1,4 +1,4 @@
-import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../initializeKeypair"
+import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../dummy-user/initializeKeypair"
 import * as web3 from "@solana/web3.js"
 
 import {
@@ -7,31 +7,23 @@ import {
 
 
 import dotenv from 'dotenv'
-import { updateJsonFile, readOrCreateFile } from "../readOrCreateJsonFile"
+import { updateJsonFile, readOrCreateFile } from "./readOrCreateJsonFile"
 import { getMetadata , type Metadata} from "./getMetadata"
 import { TOKEN_PROGRAM_ID, getAccount } from "@solana/spl-token";
 dotenv.config()
 
 // Specify Collection Pubkey
-const pubKey = new web3.PublicKey("EF6Y7xTmoPnpaF4jAUPfKXpeifXR2jDAyaRT3adE5XNN")
-
-main()
-  .then(() => {
-    console.log("Finished successfully")
-    process.exit(0)
-  })
-  .catch((error) => {
-    console.log(error)
-    process.exit(1)
-  })
+const pubKey = new web3.PublicKey("J1S9H3QjnRtBbbuD4HjPV6RpRhwuk4zKbxsnCHuTgh9w")
 
 
-async function main() {
+
+
+let main = async () => {
 
   // Connect to cluster
   const cluster: web3.Cluster = "devnet"
-  const connection = new web3.Connection(web3.clusterApiUrl(cluster))
-  // const connection = new web3.Connection(process.env.MAINNET_CONNECTION ?? "")
+  // const connection = new web3.Connection(web3.clusterApiUrl(cluster))
+  const connection = new web3.Connection(process.env.CUSTOM_MAINNET_RPC ?? "")
 
   // Get or create Keypair for user, and airdrop SOL if needed
   const user = await initializeSolSignerKeypair()
@@ -46,11 +38,11 @@ async function main() {
 
 
 // Update NFT
-async function getNfts(
+let getNfts = async (
   connection: web3.Connection,
   pubKey: web3.PublicKey,
   directoryPath: string
-) {
+) => {
 
   // // Read or get signatures by reference key
   let signatures : web3.ConfirmedSignatureInfo[] = await getAllSignaturesFromPubkey(connection, pubKey, directoryPath, "signatures")
@@ -77,13 +69,13 @@ async function getNfts(
 }
 
 
-async function getAllSignaturesFromPubkey(
+let getAllSignaturesFromPubkey = async (
   connection: web3.Connection,
   pubKey: web3.PublicKey,
   directoryPath: string,
   fieldName: string,
   skip?: boolean
-) : Promise<web3.ConfirmedSignatureInfo[]>{
+) : Promise<web3.ConfirmedSignatureInfo[]> => {
 
   // Console log progress
   let timeLabel = `getAllSignaturesFromPubkey`
@@ -128,10 +120,10 @@ async function getAllSignaturesFromPubkey(
 }
 
 
-async function getSignaturesFromPubkey(
+let getSignaturesFromPubkey = async (
   connection: web3.Connection, 
   pubkey: web3.PublicKey, 
-  lastSignatureInfo?: web3.ConfirmedSignatureInfo ) {
+  lastSignatureInfo?: web3.ConfirmedSignatureInfo ) => {
 
   let options = {
     before: lastSignatureInfo?.signature,
@@ -145,7 +137,7 @@ async function getSignaturesFromPubkey(
 }
 
 
-async function getAllTxsFromSignatures(
+let getAllTxsFromSignatures = async (
   connection: web3.Connection,
   pubKey: web3.PublicKey,
   directoryPath: string,
@@ -153,7 +145,7 @@ async function getAllTxsFromSignatures(
   txFieldName: string,
   batchSize: number = 100,
   skip?: boolean
-  ) : Promise<(web3.TransactionResponse | null)[]> {
+  ) : Promise<(web3.TransactionResponse | null)[]> => {
 
     // Console log progress
     let timeLabel = `getAllTxsFromSignatures`
@@ -206,13 +198,13 @@ async function getAllTxsFromSignatures(
 }
 
 
-async function parseTxMetadataAccounts( 
+let parseTxMetadataAccounts = async ( 
   pubKey: web3.PublicKey,
   directoryPath: string,
   txFieldName: string,
   accountsFieldName: string,
   skip?: boolean
-  ) : Promise<web3.PublicKey[]> {
+  ) : Promise<web3.PublicKey[]> => {
   
   // Console log progress
   let timeLabel = 'parseTxMetadataAccounts'
@@ -332,13 +324,13 @@ async function parseTxMetadataAccounts(
 }
 
 
-async function getMintsFromMetadata(
+let getMintsFromMetadata = async (
   pubKey: web3.PublicKey,
   directoryPath: string,
   metadataFieldName: string,
   mintFieldName: string,
   skip?: boolean
-) : Promise<web3.PublicKey[]>{
+) : Promise<web3.PublicKey[]> => {
 
   // Console log progress
   let timeLabel = `getMintsFromMetadata`
@@ -378,7 +370,7 @@ async function getMintsFromMetadata(
 }
 
 
-async function getOwnersFromMints (
+let getOwnersFromMints = async (
   connection: web3.Connection,
   pubKey: string,
   directoryPath: string,
@@ -386,7 +378,7 @@ async function getOwnersFromMints (
   ownersFieldName: string,
   batchSize: number = 100,
   skip?: boolean
-) {
+) => {
 
   // Console log progress
   let timeLabel = `getOwnersFromMints`
@@ -417,3 +409,14 @@ async function getOwnersFromMints (
 }
 
 
+
+
+main()
+  .then(() => {
+    console.log("Finished successfully")
+    process.exit(0)
+  })
+  .catch((error) => {
+    console.log(error)
+    process.exit(1)
+  })

@@ -8,5 +8,5 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist"
   },
-  "include": [ "./src/**/*", "scripts/initializeKeypair.ts", "scripts/readOrCreateJsonFile copy.ts", "scripts/addNftToCollection copy.ts" ]
+  "include": [ "./src/**/*", "scripts/dummy-user/initializeKeypair.ts", "scripts/metaplex/readOrCreateJsonFile.ts", "scripts/metaplex/addNftToCollection.ts" ]
 }

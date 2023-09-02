@@ -1,7 +1,7 @@
-import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../initializeKeypair"
+import { airdropSolIfNeeded, initializeSolSignerKeypair } from "../dummy-user/initializeKeypair"
 import * as web3 from "@solana/web3.js"
 import { PublicKey } from "@solana/web3.js"
-import { readOrCreateFile } from "../readOrCreateJsonFile"
+import { readOrCreateFile } from "./readOrCreateJsonFile"
 
 import {
   toBigNumber,
@@ -12,12 +12,12 @@ import {
 
 
 // Add and verify NFT to collection 
-export default async function addAndVerifyCollection(
+export let addAndVerifyCollection = async (
   cluster: web3.Cluster,
   signer: web3.Keypair,
   collectionKey: web3.PublicKey,
   nftKeyArray: web3.PublicKey[], 
-) : Promise<Array<any>> {
+) : Promise<Array<any>> => {
 
 
   // Set up Metaplex with signer
@@ -78,3 +78,5 @@ return arrayOfVerifications
 
 }
 
+
+export default addAndVerifyCollection;

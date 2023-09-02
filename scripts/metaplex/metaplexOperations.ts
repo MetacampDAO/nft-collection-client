@@ -23,19 +23,11 @@ import {
     toBigNumber
 } from "@metaplex-foundation/js"
 import * as web3 from "@solana/web3.js"
-import { initializeSolSignerKeypair, airdropSolIfNeeded } from "../initializeKeypair"
+import { initializeSolSignerKeypair, airdropSolIfNeeded } from "../dummy-user/initializeKeypair"
 
-main()
-  .then(() => {
-    console.log("Finished successfully")
-    process.exit(0)
-  })
-  .catch((error) => {
-    console.log(error)
-    process.exit(1)
-  })
 
-export async function main() {
+
+export let main = async () => {
 
 
 
@@ -159,3 +151,14 @@ export async function main() {
 
 
 }
+
+
+main()
+  .then(() => {
+    console.log("Finished successfully")
+    process.exit(0)
+  })
+  .catch((error) => {
+    console.log(error)
+    process.exit(1)
+  })
