@@ -3,6 +3,7 @@ import * as web3 from "@solana/web3.js"
 
 import { createCollection, createNfts } from "../scripts/metaplex/createNftsOrCollection"
 import addAndVerifyCollection from "../scripts/metaplex/addNftToCollection"
+import base58 = require("bs58")
 
 
 main().then(() => {
@@ -17,7 +18,7 @@ main().then(() => {
 async function main() {
 
   // Set cluster and connection
-  const cluster = 'mainnet-beta'
+  const cluster = 'devnet'
   const connection = new web3.Connection(web3.clusterApiUrl(cluster), 'confirmed')
 
   // Create user and airdrop SOL if needed

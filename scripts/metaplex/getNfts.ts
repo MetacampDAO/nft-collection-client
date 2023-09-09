@@ -60,10 +60,6 @@ let getNfts = async (
   let mintArray : web3.PublicKey[] = await getMintsFromMetadata(pubKey, directoryPath, "metadataArray", "mintAccounts")
 
 
-
-
-
-
   return mintArray
 
 }
